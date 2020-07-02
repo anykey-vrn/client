@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.Arrays;
+import java.util.Random;
 
 public class SimpleServer {
     //Intellij Idea при длинной записи оператора сама будет выставлять переносы строк, нет необходимости нажимать Enter по середине записи строки.
@@ -13,12 +14,12 @@ public class SimpleServer {
             while(true) {
                 Socket sock = serverSock.accept();
                 PrintWriter writer = new PrintWriter(sock.getOutputStream());
-                int[] advice = getMassive();//Заполним массив случайными значениями
-                Arrays.sort(advice);//Сортируем массив
-                for(int i = 0; i < advice.length; i++){
-                    writer.println(advice[i]);
-                    System.out.println(advice[i]);
-                }
+                int[] advice = getMassive();//Заполним массив случайными значениями и сортируем его
+                for (int i=0;i < advice.length;i++) {
+
+                        writer.println(advice[i]);
+                        System.out.println(advice[i]);
+                  }
                 writer.close();
                 //System.out.println(advice);
             }
@@ -27,15 +28,31 @@ public class SimpleServer {
         }
     } // Закрываем go
     private int[] getMassive() {
-        int n;
-        n = 10; //размер массива
-        int[] arr = new int[n];
-        for (int i=0;i<arr.length;i++)
-            arr[i] = (int) ( Math.random() * n);
+        int n, m;
+        n = 5; //размер массива
+        m = 5;
+        Random rnd = new Random();
+        int[][] arr = new int[n][m];
+        for (int i=0;i < arr.length;i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                arr[i][j] = rnd.nextInt(10) + 1;
+            }
+        }
+                int[] flat = new int[n * m];
 
-        return arr;
+                int ctr = 0;
+                for (int k = 0; k < n; k++) {
+                    for (int l = 0; l < m; l++) {
+                        flat[ctr++] = arr[k][l];
+                    }
+                }
+
+                Arrays.sort(flat);
+
+        return flat;
 
     }
+
     public static void main(String[] args) {
         SimpleServer server = new SimpleServer();
         server.go();
