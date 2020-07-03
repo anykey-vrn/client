@@ -30,7 +30,7 @@ public class Table extends Application {
 
         TableView<Out> table = new TableView<Out>();
 
-// Create column UserName (Data type of String).
+        // Create column UserName (Data type of String).
         TableColumn<Out, String> outCol
                 = new TableColumn<Out, String>("out");
 
